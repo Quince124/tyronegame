@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polytrack Animation</title>
+    <style>
+        canvas {
+            background-color: #f3f3f3;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="racetrack" width="600" height="400"></canvas>
+
+    <script>
+        const canvas = document.getElementById('racetrack');
+        const ctx = canvas.getContext('2d');
+
+        // Track and car parameters
+        const trackRadius = 150;
+        const carRadius = 10;
+        let angle = 0;
+        const speed = 0.02;
+
+        // Draw racetrack
+        function drawTrack() {
+            ctx.beginPath();
+            ctx.arc(canvas.width / 2, canvas.height / 2, trackRadius, 0, Math.PI * 2);
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+
+        // Draw car (moving object)
+        function drawCar(x, y) {
+            ctx.beginPath();
+            ctx.arc(x, y, carRadius, 0, Math.PI * 2);
+            ctx.fillStyle = 'red';
+            ctx.fill();
+        }
+
+        // Animate the car around the track
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw track
+            drawTrack();
+
+            // Calculate car position on the track
+            const x = canvas.width / 2 + trackRadius * Math.cos(angle);
+            const y = canvas.height / 2 + trackRadius * Math.sin(angle);
+
+            // Draw car at calculated position
+            drawCar(x, y);
+
+            // Update angle for next frame (to move the car)
+            angle += speed;
+
+            // Loop the animation
+            requestAnimationFrame(animate);
+        }
+
+        // Start the animation
+        animate();
+    </script>
+</body>
+</html>
